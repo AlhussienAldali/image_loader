@@ -9,9 +9,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 class RemoteImage extends StatelessWidget {
   /// image link provided as a string
   final String imageUrl;
+
   /// Size of the widget, by default 240
   final double? size;
-/// widget constructor
+
+  /// widget constructor
   const RemoteImage({super.key, required this.imageUrl, this.size});
 
   @override

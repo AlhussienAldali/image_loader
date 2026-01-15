@@ -3,8 +3,6 @@ import 'package:image_loader/constants.dart';
 import 'package:image_loader/features/random_image/repo/image_repository.dart';
 import 'package:image_loader/utils/remote_image.dart';
 
-
-
 ///Main screen
 class RandomImageScreen extends StatefulWidget {
   ///Widget constructor
@@ -42,6 +40,7 @@ class _RandomImageScreenState extends State<RandomImageScreen> {
       });
     }
   }
+
   @override
   void initState() {
     super.initState();
@@ -58,15 +57,12 @@ class _RandomImageScreenState extends State<RandomImageScreen> {
             if (_isLoading)
               const CircularProgressIndicator()
             else if (_imageUrl != null)
-              RemoteImage(
-                imageUrl: _imageUrl!,
-                size: imageSize,
-              )
+              RemoteImage(imageUrl: _imageUrl!, size: imageSize)
             else if (_errorMessage != null)
-                Text(
-                  _errorMessage!,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
+              Text(
+                _errorMessage!,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
 
             const SizedBox(height: 24),
 
@@ -79,6 +75,4 @@ class _RandomImageScreenState extends State<RandomImageScreen> {
       ),
     );
   }
-
-
 }

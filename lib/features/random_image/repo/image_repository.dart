@@ -1,8 +1,6 @@
 import 'package:image_loader/constants.dart';
 import 'package:image_loader/services/network_services.dart';
 
-
-
 /// Repo made for fetching the image through the api, cache, ...etc
 class ImageRepository {
   final NetworkService _networkService;
@@ -15,9 +13,7 @@ class ImageRepository {
   ///
   /// Throws an [Exception] if the request fails or the response is invalid.
   Future<String> fetchFromApi() async {
-    final response = await _networkService.get<Map<String, dynamic>>(
-      imageApi,
-    );
+    final response = await _networkService.get<Map<String, dynamic>>(imageApi);
 
     final data = response.data;
 

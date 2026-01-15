@@ -15,24 +15,21 @@ class NetworkService {
   }
 
   static final NetworkService _instance = NetworkService._internal();
+
   /// create one instance to manage api calls
   factory NetworkService() => _instance;
 
   late final Dio _dio;
+
   /// Get method to fetch the
   Future<Response<T>> get<T>(
-      String path, {
-        Map<String, dynamic>? queryParameters,
-      }) async {
+    String path, {
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
-      return await _dio.get<T>(
-        path,
-        queryParameters: queryParameters,
-      );
+      return await _dio.get<T>(path, queryParameters: queryParameters);
     } on DioException catch (e) {
-      throw Exception(
-        e.response?.data ?? 'Network error occurred',
-      );
+      throw Exception(e.response?.data ?? 'Network error occurred');
     }
   }
 }
