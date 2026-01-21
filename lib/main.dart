@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:image_loader/features/random_image/random_image_screen.dart';
+import 'package:image_loader/features/random_image/ui/random_image_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,7 +7,6 @@ void main() {
 
 ///Root app widget
 class MyApp extends StatelessWidget {
-  ///widget Constructor
   const MyApp({super.key});
 
   @override
