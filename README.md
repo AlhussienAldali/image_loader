@@ -1,6 +1,8 @@
 # image_loader
 
 Mobile Engineer Take-Home
+# Link to video
+You can watch the app in action [here](https://github.com/AlhussienAldali/image_loader/tree/main/vido_clip).
 
 # Image
 
