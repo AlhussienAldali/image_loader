@@ -1,8 +1,7 @@
-import 'dart:typed_data';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_loader/constants.dart';
 
 import 'package:image_loader/features/random_image/repo/image_repository.dart';
 import 'package:image_loader/utils/color_helper.dart';
@@ -18,10 +17,12 @@ class RandomImageChangeNotifier extends ChangeNotifier {
   final ImageRepository _repository;
 
   String? imageUrl;
-  Color backgroundColor = Colors.yellow;
+  Color backgroundColor = Colors.black;
   bool isLoading = false;
   String? errorMessage;
 
+  ///Load the link of the image from the UI and then return it
+  ///Also calculate the background color
   Future<void> loadImage() async {
     isLoading = true;
     errorMessage = null;
@@ -33,14 +34,14 @@ class RandomImageChangeNotifier extends ChangeNotifier {
 
       // Fetch image bytes for color extraction
       final response = await http.get(Uri.parse(url));
-
+      // Color calculation is part of loading
       await _updateBackgroundColor(response.bodyBytes);
 
       isLoading = false;
       notifyListeners();
     } catch (_) {
       isLoading = false;
-      errorMessage = 'Failed to load image. Please try again.';
+      errorMessage = imageExceptionMessage;
       notifyListeners();
     }
   }

@@ -23,8 +23,6 @@ linter:
     # --- Flutter performance ---
     prefer_const_constructors: true
     prefer_const_literals_to_create_immutables: true
-    # Require doc comments (///) for all public members (classes, methods, fields)
-    public_member_api_docs: true
 
     # Require doc comments for top-level functions, classes, enums
     always_put_control_body_on_new_line: true

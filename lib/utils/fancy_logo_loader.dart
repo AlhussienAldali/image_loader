@@ -3,17 +3,18 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+/// Fancy loader was created from aurora logo to mimic the one from their website
 class FancyLogoLoader extends StatefulWidget {
   const FancyLogoLoader({
     super.key,
     required this.color,
-    required this.logo,
+
     this.size = 100,
     this.duration = const Duration(milliseconds: 2500),
   });
 
   final Color color;
-  final Widget logo;
+
   final double size;
   final Duration duration;
 
@@ -26,8 +27,6 @@ class _FancyLogoLoaderState extends State<FancyLogoLoader>
   late final AnimationController _controller;
 
   static const _baseScales = [0.5, 0.75, 1.0];
-  static const _rotationDirections = [1.0, -1.0, 1.0];
-  static const _rotationSpeeds = [1.2, 1.6, 1.0];
 
   @override
   void initState() {
@@ -82,7 +81,7 @@ class _FancyLogoLoaderState extends State<FancyLogoLoader>
       height: baseSize,
       child: AnimatedBuilder(
         animation: _controller,
-        builder: (_, __) {
+        builder: (_, _) {
           final t = _controller.value;
 
           return Stack(

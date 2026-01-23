@@ -1,9 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:image_loader/constants.dart';
 import 'package:image_loader/features/random_image/notifier/random_image_change_notifier.dart';
 import 'package:image_loader/features/random_image/repo/image_repository.dart';
+import 'package:image_loader/utils/app_visual_theme.dart';
 import 'package:image_loader/utils/fancy_logo_loader.dart';
+import 'package:image_loader/utils/outline_button.dart';
 import 'package:image_loader/utils/remote_image.dart';
 import 'package:provider/provider.dart';
 
@@ -26,37 +29,35 @@ class _RandomImageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<RandomImageChangeNotifier>();
+    final visuals = Theme.of(context).extension<AppVisualTheme>()!;
+    final Color backgroundColor = controller.isLoading
+        ? visuals.backGroundColor
+        : controller.backgroundColor;
 
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // 1️⃣ Base dynamic color
+          //  Dynamic background color
           AnimatedContainer(
             duration: const Duration(milliseconds: 1000),
             curve: Curves.easeInOut,
-            color: controller.backgroundColor,
+            color: backgroundColor,
           ),
 
-          // 2️⃣ Smooth gradient overlay with BlendMode
+          //   blur
+          BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
+            child: const SizedBox.expand(),
+          ),
+
+          //   depth overlay
           Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.white.withOpacity(0.05),
-                  Colors.black.withOpacity(0.05),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
-              child: Container(color: Colors.transparent),
+            color: Colors.black.withAlpha(
+              (visuals.overlayOpacity * 255).round(),
             ),
           ),
-
-          // 3️⃣ Main content (logo + image)
+          // Main content (logo + image)
           Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -65,29 +66,28 @@ class _RandomImageView extends StatelessWidget {
                   SizedBox(
                     height: 240,
                     child: Center(
-                      child: FancyLogoLoader(
-                        color: Colors.white,
-                        logo: Image.asset(
-                          'assets/logo-o.png',
-                          fit: BoxFit.contain,
-                        ),
-                      ),
+                      child: FancyLogoLoader(color: visuals.glowColor),
                     ),
                   )
-                else if (controller.imageUrl != null)
-                  RemoteImage(imageUrl: controller.imageUrl!, size: 240)
                 else if (controller.errorMessage != null)
                   Text(
                     controller.errorMessage!,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyMedium?.copyWith(color: Colors.white),
-                  ),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                  )
+                else if (controller.imageUrl != null)
+                  RemoteImage(imageUrl: controller.imageUrl!, size: 240),
                 const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: controller.isLoading ? null : controller.loadImage,
-                  child: const Text('Another'),
-                ),
+                !controller.isLoading
+                    ? OutlineButton(
+                        text: buttonText,
+
+                        onPressed: controller.isLoading
+                            ? null
+                            : controller.loadImage,
+                      )
+                    : const SizedBox.shrink(),
               ],
             ),
           ),

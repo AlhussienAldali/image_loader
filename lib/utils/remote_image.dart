@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import 'app_visual_theme.dart';
+
 /// Displays a cached remote image with a lightweight loading indicator.
 ///
 /// We intentionally keep this widget stateless and UI-only so that
@@ -19,6 +21,7 @@ class RemoteImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double dimension = size ?? 240;
+    final visuals = Theme.of(context).extension<AppVisualTheme>()!;
 
     final double radius = 16;
 
@@ -28,13 +31,13 @@ class RemoteImage extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(radius),
 
-        // ✅ White border
-        border: Border.all(color: Colors.white, width: 2),
+        border: Border.all(color: visuals.borderColor, width: 2),
 
-        // ✅ Glow
         boxShadow: [
           BoxShadow(
-            color: Colors.white.withOpacity(0.7),
+            color: visuals.borderColor.withAlpha(
+              (visuals.glowOpacity * 255).round(),
+            ),
             blurRadius: 16,
             spreadRadius: 2,
           ),
